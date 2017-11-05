@@ -1,13 +1,13 @@
 angular.module('todoApp').controller('todoCtrl', function($scope, todoSt, $http){
     
-    $http({
-        method : "GET"
-        , url : "data.json"
-    }).then(function(response){
-        $scope.data = response.data;
-    });
+    // $http({
+    //     method : "GET"
+    //     , url : "data.json"
+    // }).then(function(response){
+    //     $scope.data = response.data;
+    // });
 
-    // $scope.data = todoSt.read();
+    $scope.data = todoSt.read();
 
     $scope.remove = function(index){
         todoSt.remove(index)

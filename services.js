@@ -3,7 +3,7 @@
 // 각 기능별 차이는 
 // 가장 기본적인것은 팩토리  가장 난이도 높은 것은 provider
 
-angular.module("todoApp").factory("todoSt", function(){
+angular.module("todoApp").factory("todoSt", function($http){
     var storage = {
         data : [],
         add : function(newTodoTitle){
@@ -16,7 +16,13 @@ angular.module("todoApp").factory("todoSt", function(){
             storage._setStorage();
         },
         read : function(){
-            angular.copy(storage._getStorage(), storage.data);
+            $http({
+                method : "GET"
+                , url : 'http://localhost:9000/todolist'
+            }).then(function(resp){
+                console.log(resp);
+                angular.copy(resp.data, storage.data);
+            });
             return storage.data;
         },
         update : function(){
