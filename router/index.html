@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.angularjs.org/1.6.7/angular.min.js"></script>
+    <script src="//unpkg.com/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
+    <title>Document</title>
+    <script>
+        var app = angular.module('routerApp', ['ui.router']);
+        app.config(function($stateProvider){
+            $stateProvider.state({
+                name : 'hello'
+                , url : '/hello'
+                , template : '<h1>Hello {{}}!</h1>'
+                , controller : function($scope){
+                    $scope.name = 'world'
+                }
+            })
+        });
+
+        app.config(function($stateProvider){
+            $stateProvider.state({
+                name : 'about'
+                , url : '/about'
+                , template : '<h1>About World!</h1>'
+            })
+        });
+    </script>
+    <style>.active{color: red; font-weight: bolder}</style>
+</head>
+<body ng-app="routerApp">
+<a ui-sref="hello" ui-sref-active="active">Hello</a>
+<a ui-sref="about" ui-sref-active="active">about</a>
+<ui-view></ui-view>
+</body>
+</html>

@@ -3,7 +3,7 @@
 // 각 기능별 차이는 
 // 가장 기본적인것은 팩토리  가장 난이도 높은 것은 provider
 
-angular.module("todoApp").factory("todoSt", function($http){
+angular.module("todoApp").constant('baseURL', 'http://localhost:2403/todolist').factory("todoSt", function($http, baseURL){
     var storage = {
         data : [],
         add : function(newTodoTitle){
@@ -12,25 +12,49 @@ angular.module("todoApp").factory("todoSt", function($http){
                 completed: false,
                 createdAt: Date.now()
             };
-            storage.data.push(newTodo);
-            storage._setStorage();
+
+            $http({
+                method : "POST"
+                , url : baseURL
+                , data : newTodo
+            }).then(function(resp){
+                // console.log(resp);
+                storage.data.push(resp.data);
+            })
+
+            // storage.data.push(newTodo);
+            // storage._setStorage();
         },
         read : function(){
             $http({
                 method : "GET"
-                , url : 'http://localhost:9000/todolist'
+                , url : baseURL
             }).then(function(resp){
-                console.log(resp);
+                // console.log(resp);
                 angular.copy(resp.data, storage.data);
+                
             });
             return storage.data;
         },
-        update : function(){
-            storage._setStorage();
+        update : function(todo){
+            $http({
+                method : "PUT"
+                , url : baseURL + '/' + todo.id
+                , data : todo
+            }).then(function(resp){
+                console.log(resp);
+            })
+            // storage._setStorage();
         },
-        remove : function(index){
-            storage.data.splice(index, 1);
-            storage._setStorage();
+        remove : function(todo){
+            $http({
+                method : "DELETE"
+                , url : baseURL + '/' + todo.id
+            }).then(function(){
+                storage.data.splice(storage.data.indexOf(todo), 1);
+            })
+            // storage.data.splice(index, 1);
+            // storage._setStorage();
         },
         _setStorage : function(){
             localStorage.setItem("data", JSON.stringify(storage.data));

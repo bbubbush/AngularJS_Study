@@ -9,8 +9,8 @@ angular.module('todoApp').controller('todoCtrl', function($scope, todoSt, $http)
 
     $scope.data = todoSt.read();
 
-    $scope.remove = function(index){
-        todoSt.remove(index)
+    $scope.remove = function(todo){
+        todoSt.remove(todo)
     };
 
     // add new contents 
@@ -19,8 +19,8 @@ angular.module('todoApp').controller('todoCtrl', function($scope, todoSt, $http)
         $scope.newTodoTitle = "";
     };
 
-    $scope.update = function(){
-        todoSt.update();
+    $scope.update = function(todo){
+        todoSt.update(todo);
     }
     
 });
